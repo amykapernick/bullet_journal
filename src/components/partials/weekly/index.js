@@ -9,7 +9,7 @@ const Week = ({ weekId }) => (
 			<h2>Goals</h2>
 			<List listName={`week_${weekId}_goals`} />
 		</section>
-		<section className="events">
+		{/* <section className="events">
 			<h2>Events</h2>
 			<List listName={`week_${weekId}_events`} />
 		</section>
@@ -61,7 +61,7 @@ const Week = ({ weekId }) => (
 					<List listName={`week_${weekId}_sunday`} />
 				</li>
 			</ul>
-		</section>
+		</section> */}
 	</Fragment>
 
 );

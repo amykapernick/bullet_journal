@@ -2,18 +2,24 @@ import React, {
 	useState, useEffect, Fragment
 } from 'react';
 import { useLocation } from 'react-router-dom';
+import {
+	gql, useQuery, ApolloClient, InMemoryCache
+} from '@apollo/client';
 
 import Item from '../listItem';
 
 import Close from '../../icons/close';
 import Add from '../../icons/add';
 import uuid from '../../../utils/uuid';
+import { GET_TASKS } from '../../../utils/fetchData';
 
 const List = ({ listName }) => {
 	const listStructure = listName.split(`_`).map((i) => i.toLowerCase()),
 		localData = localStorage.getItem(`task_data`) ? JSON.parse(localStorage.getItem(`task_data`)) : false;
 
 	let initialTasks = [];
+
+	console.log(useQuery(GET_TASKS).data.tasks);
 
 	if (
 		localData

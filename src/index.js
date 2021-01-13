@@ -5,6 +5,9 @@ import {
 	Switch,
 	Route
 } from 'react-router-dom';
+import {
+	ApolloProvider, gql, useQuery, ApolloClient, InMemoryCache
+} from '@apollo/client';
 
 import { months, fullMonths } from './_data/dates';
 import Layout from './components/partials/layout';
@@ -49,17 +52,22 @@ const App = () => {
 	return (
 		<Router>
 			<Layout {...details}>
-				<Switch>
-					<Route exact path="/">
-						<Home {...details} />
-					</Route>
-					<Route path="/week/:weekId?">
-						<Week {...details} />
-					</Route>
-					<Route exact path="/month/:monthId?">
-						<Month {...details} />
-					</Route>
-				</Switch>
+				<ApolloProvider client={new ApolloClient({
+					uri: `http://localhost:7071/api/graphql`,
+					cache: new InMemoryCache()
+				})}>
+					<Switch>
+						<Route exact path="/">
+							<Home {...details} />
+						</Route>
+						<Route path="/week/:weekId?">
+							<Week {...details} />
+						</Route>
+						<Route exact path="/month/:monthId?">
+							<Month {...details} />
+						</Route>
+					</Switch>
+				</ApolloProvider>
 			</Layout>
 		</Router>
 	);
