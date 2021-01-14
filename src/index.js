@@ -49,11 +49,13 @@ const App = () => {
 			currentDay
 		};
 
+	console.log(process.env.GRAPHQL_URL);
+
 	return (
 		<Router>
 			<Layout {...details}>
 				<ApolloProvider client={new ApolloClient({
-					uri: `http://localhost:7071/api/graphql`,
+					uri: process.env.GRAPHQL_URL,
 					cache: new InMemoryCache()
 				})}>
 					<Switch>

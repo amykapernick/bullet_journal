@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
-	gql, useQuery, ApolloClient, InMemoryCache
+	gql, useQuery, ApolloClient, InMemoryCache, useMutation
 } from '@apollo/client';
 
 import Item from '../listItem';
@@ -11,43 +11,19 @@ import Item from '../listItem';
 import Close from '../../icons/close';
 import Add from '../../icons/add';
 import uuid from '../../../utils/uuid';
-import { GET_TASKS } from '../../../utils/fetchData';
+import { GET_TASKS, ADD_TASK } from '../../../utils/fetchData/tasks';
 
-const List = ({ listName }) => {
-	const listStructure = listName.split(`_`).map((i) => i.toLowerCase()),
-		localData = localStorage.getItem(`task_data`) ? JSON.parse(localStorage.getItem(`task_data`)) : false;
-
-	let initialTasks = [];
-
-	console.log(useQuery(GET_TASKS).data.tasks);
-
-	if (
-		localData
-		&& localData[listStructure[0]]
-		&& localData[listStructure[0]][listStructure[1]]
-		&& localData[listStructure[0]][listStructure[1]][listStructure[2]]
-	) {
-		initialTasks = localData[listStructure[0]][listStructure[1]][listStructure[2]];
-	}
-
-	const [todos, setTodos] = useState(initialTasks),
+const List = ({ listId, section }) => {
+	const gql_options = {
+			variables: {
+				list: listId,
+				section
+			}
+		},
+		{ loading, error, data } = useQuery(GET_TASKS, gql_options),
+		// [todos, setTodos] = useState(data?.tasks || []),
 		[newTaskOpen, openNewTask] = useState(false),
 		[addMultiple, toggleInputMethod] = useState(false),
-		saveLocal = (listData) => {
-			const local = JSON.parse(localStorage.getItem(`task_data`)),
-				localJournal = local ? local[listStructure[0]] : {},
-				localList = (local && local[listStructure[0]]) ? local[listStructure[0]][listStructure[1]] : {};
-			localStorage.setItem(`task_data`, JSON.stringify({
-				...local,
-				[listStructure[0]]: {
-					...localJournal,
-					[listStructure[1]]: {
-						...localList,
-						[listStructure[2]]: listData
-					}
-				}
-			}));
-		},
 		completeTask = (ref, e) => {
 			const { current } = ref,
 				checkbox = e.target,
@@ -64,7 +40,7 @@ const List = ({ listName }) => {
 
 			setTodos(list);
 
-			saveLocal(todos);
+			// saveLocal(todos);
 		},
 		changeLabel = (ref, e) => {
 			if (e && ref) {
@@ -83,46 +59,33 @@ const List = ({ listName }) => {
 
 				setTodos(list);
 
-				saveLocal(todos);
+				// saveLocal(todos);
 			}
 		},
 		changeLabelForm = (ref, e) => {
 			changeLabel(ref, { target: e.target.elements.label });
 		},
 		deleteTask = (index) => {
-			const list = todos;
+			const list = data.tasks;
 
 			list.splice(index, 1);
 
-			setTodos(list);
+			// setTodos(list);
 
-			saveLocal(todos);
+			// saveLocal(todos);
 
-			location.reload();
+			// location.reload();
 		},
-		addTask = (e) => {
-			const newLabel = e.target.elements[`${listName}_newTask`].value,
-				list = todos;
-
-			list.push({
-				id: uuid(),
-				name: newLabel,
-				completed: false
-			});
-
-			setTodos(list);
-
-			saveLocal(todos);
-		},
+		[addTask] = useMutation(ADD_TASK),
 		addMultipleTask = (e) => {
-			const newLabel = e.target.elements[`${listName}_newTask`].value,
+			const newLabel = e.target.elements[`${listId}_newTask`].value,
 				newTasks = newLabel.split(`\n`);
 
 			newTasks.forEach((task) => {
 				addTask({
 					target: {
 						elements: {
-							[`${listName}_newTask`]: {
+							[`${listId}_newTask`]: {
 								value: task
 							}
 						}
@@ -131,7 +94,19 @@ const List = ({ listName }) => {
 			});
 		};
 
-	useEffect(() => { saveLocal(todos); }, [todos]);
+	// useEffect(() => { setTodos(data?.tasks || []); }, [data]);
+
+	if (loading) {
+		return (
+			<p className="list">Loading...</p>
+		);
+	}
+
+	if (error) {
+		return (
+			<p className="list">Whoops, looks like soemthing went wrong. Try that again...</p>
+		);
+	}
 
 	return (
 		<Fragment>
@@ -140,13 +115,30 @@ const List = ({ listName }) => {
 					<Close />
 					<span className="sr-only">Close Modal</span>
 				</button>
-				<form className="toggle" onSubmit={(e) => addTask(e)} open={!addMultiple}>
+				<form
+					className="toggle"
+					open={!addMultiple}
+					onSubmit={(e) => {
+						e.preventDefault();
+						addTask({
+							variables: {
+								task: {
+									list: listId,
+									section,
+									name: e.target.elements[`${listId}_newTask`].value
+								}
+							}
+						});
+						openNewTask(!newTaskOpen);
+						// location.reload();
+					}}
+				>
 					<legend>Add New Task</legend>
 					<label className="sr-only">New Task Name</label>
 					<input
 						type="text"
 						placeholder="New Task"
-						name={`${listName}_newTask`}
+						name={`${listId}_newTask`}
 					/>
 					<button className="icon add" type="submit">
 						<Add />
@@ -159,7 +151,7 @@ const List = ({ listName }) => {
 					<textarea
 						className="multiple"
 						defaultValue={`Task 1\nTask 2\nTask 3`}
-						name={`${listName}_newTask`}
+						name={`${listId}_newTask`}
 					/>
 					<button className="icon add" type="submit">
 						<Add />
@@ -178,13 +170,13 @@ const List = ({ listName }) => {
 				<span className="sr-only">Add New Task</span>
 			</button>
 			<ul className="list">
-				{todos.map((task, index) => (
+				{data.tasks.map((task, index) => (
 					<Item
 						key={index}
 						{...{
 							...task,
 							index,
-							taskId: `${listStructure.join(`_`)}_${task.id}`,
+							taskId: task.id,
 							functions: {
 								completeTask,
 								changeLabelForm,

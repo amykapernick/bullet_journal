@@ -1,4 +1,9 @@
 import React, { useRef, useState } from 'react';
+import {
+	gql, useQuery, ApolloClient, InMemoryCache, useMutation
+} from '@apollo/client';
+
+import { ADD_TASK, DELETE_TASK } from '../../../utils/fetchData/tasks';
 
 import Delete from '../../icons/delete';
 import Edit from '../../icons/edit';
@@ -9,7 +14,27 @@ const Item = ({
 	index, taskId, id, completed, name, functions
 }) => {
 	const ref = useRef(null),
-		[editTaskOpen, openEditTask] = useState(false);
+		[editTaskOpen, openEditTask] = useState(false),
+		[deleteTask] = useMutation(DELETE_TASK, {
+			update(cache, { data: { deleteTask } }) {
+				cache.modify({
+					fields: {
+						tasks(existingTasks = []) {
+							const newTaskRef = cache.writeFragment({
+								data: deleteTask,
+								fragment: gql`
+									fragment newTask on Task {
+										id
+										name
+									}
+								`
+							});
+							return [...existingTasks, newTaskRef];
+						}
+					}
+				});
+			}
+		});
 	return (
 		<li key={index} ref={ref} data-id={id}>
 			<input
@@ -59,7 +84,15 @@ const Item = ({
 						name={`label`}
 						onChange={(e) => { functions.changeLabel(ref, e); }}
 					/>
-					<button className="icon remove" type="button" onClick={() => functions.deleteTask(index)}>
+					<button className="icon remove" type="button" onClick={() => {
+						deleteTask({
+							variables: {
+								task: id
+							}
+						});
+						openEditTask(!editTaskOpen);
+						// location.reload();
+					}}>
 						<Delete />
 						<span className="sr-only">Delete Task</span>
 					</button>

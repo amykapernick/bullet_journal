@@ -1,50 +1,31 @@
 import React, {
 	useState, useEffect, Fragment
 } from 'react';
+import {
+	gql, useQuery, ApolloClient, InMemoryCache, useMutation
+} from '@apollo/client';
 
-const Notes = ({ noteId }) => {
-	const id = noteId.split(`_`).map((i) => i.toLowerCase()),
-	 localData = localStorage.getItem(`task_data`) ? JSON.parse(localStorage.getItem(`task_data`)) : false;
+import { GET_NOTE } from '../../../utils/fetchData/notes';
 
-	let initialNotes = ``;
-
-	if (
-		localData
-		&& localData[id[0]]
-		&& localData[id[0]][id[1]]
-		&& localData[id[0]][id[1]].notes
-	) {
-		initialNotes = localData[id[0]][id[1]].notes;
-	}
-
-	const [notes, setNotes] = useState(initialNotes),
-		saveLocal = (noteData) => {
-			const local = JSON.parse(localStorage.getItem(`task_data`)),
-				localJournal = local ? local[id[0]] : {},
-				localList = (local && local[id[0]]) ? local[id[0]][id[1]] : {};
-			localStorage.setItem(`task_data`, JSON.stringify({
-				...local,
-				[id[0]]: {
-					...localJournal,
-					[id[1]]: {
-						...localList,
-						notes: noteData
-					}
-				}
-			}));
-		},
-
+const Notes = ({ section }) => {
+	const { loading, error, data } = useQuery(GET_NOTE, {
+			variables: {
+				section
+			}
+		}),
 		changeLabel = (e) => {
 			if (e) {
 				const newNotes = e.target.value;
 
-				setNotes(newNotes);
+				// setNotes(newNotes);
 
-				saveLocal(notes);
+				// saveLocal(notes);
 			}
 		};
 
-	useEffect(() => { saveLocal(notes); }, [notes]);
+	console.log(data);
+
+	// useEffect(() => { saveLocal(notes); }, [notes]);
 
 	return (
 		<Fragment>
@@ -52,7 +33,7 @@ const Notes = ({ noteId }) => {
 			<textarea
 				name="notes"
 				onChange={(e) => { changeLabel(e); }}
-				defaultValue={notes}
+				defaultValue={data?.note.notes}
 			>
 			</textarea>
 		</Fragment>

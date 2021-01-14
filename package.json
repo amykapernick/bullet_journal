@@ -23,6 +23,7 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "graphql": "^15.4.0",
     "parcel": "2.0.0-nightly.513",
     "parcel-plugin-static-files-copy": "^2.5.0",

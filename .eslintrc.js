@@ -1,6 +1,13 @@
 module.exports = {
-	extends: [`airbnb-base`],
-	plugins: [`import`, `react`],
+	extends: [
+		`airbnb-base`,
+		`plugin:react-hooks/recommended`
+	],
+	plugins: [
+		`import`,
+		`react`,
+		`react-hooks`
+	],
 	parser: `babel-eslint`,
 	rules: {
 		'linebreak-style': 0,
