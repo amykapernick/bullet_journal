@@ -18,7 +18,8 @@ const List = ({ listId, section }) => {
 			variables: {
 				list: listId,
 				section
-			}
+			},
+			context: process.env.AUTH_TOKEN
 		},
 		{ loading, error, data } = useQuery(GET_TASKS, gql_options),
 		// [todos, setTodos] = useState(data?.tasks || []),

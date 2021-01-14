@@ -23,7 +23,7 @@ const Notes = ({ section }) => {
 			}
 		};
 
-	console.log(data);
+	// console.log(data);
 
 	// useEffect(() => { saveLocal(notes); }, [notes]);
 

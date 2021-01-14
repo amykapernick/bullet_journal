@@ -17,6 +17,7 @@
     "@parcel/transformer-js": "2.0.0-nightly.513",
     "@parcel/transformer-svg-react": "2.0.0-nightly.2135",
     "@svgr/parcel-plugin-svgr": "^5.5.0",
+    "apollo-link-context": "^1.0.20",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
     "eslint-config-airbnb-base": "^14.2.1",
