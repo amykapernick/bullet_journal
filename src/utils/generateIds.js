@@ -1,15 +1,17 @@
-import {
-	months, fullMonths
-} from '../_data/dates';
+import { format } from 'date-fns';
 
-const weekId = (date) => `${date.getDate()}-${months[date.getMonth()].toLowerCase()}-${date.getFullYear()}`,
-	weekString = (date) => `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`,
-	monthId = (date) => `${months[date.getMonth()].toLowerCase()}-${date.getFullYear()}`,
-	monthString = (date) => `${fullMonths[date.getMonth()]} ${date.getFullYear()}`;
+export const weekId = (date) => (
+	format(date, `dd-MMM-yyyy`).toLowerCase()
+);
 
-module.exports = {
-	weekId,
-	weekString,
-	monthId,
-	monthString
-};
+export const weekString = (date) => (
+	format(date, `dd MMM yyyy`)
+);
+
+export const monthId = (date) => (
+	format(date, `MMM-yyyy`).toLowerCase()
+);
+
+export const monthString = (date) => (
+	format(date, `MMMM yyyy`)
+);

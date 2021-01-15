@@ -6,50 +6,29 @@ import {
 	Route
 } from 'react-router-dom';
 import {
-	ApolloProvider, gql, useQuery, ApolloClient, InMemoryCache
+	ApolloProvider, ApolloClient, InMemoryCache
 } from '@apollo/client';
 
-import { months, fullMonths } from './_data/dates';
+import { startOfWeek } from 'date-fns';
 import Layout from './components/partials/layout';
 import Home from './pages/home';
 import Week from './pages/weekly';
 import Month from './pages/monthly';
 
-const App = () => {
-	let currentWeek = false,
-		currentMonth = new Date(),
-		monthString = `${fullMonths[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`,
-		monthId = `${months[currentMonth.getMonth()]}-${currentMonth.getFullYear()}`,
-		currentDay = new Date().getDay();
+import {
+	weekId, weekString, monthId, monthString
+} from './utils/generateIds';
 
-	if (!currentWeek) {
-		const currentDate = new Date(),
-			currentDay = currentDate.getDay();
-		let startDate = 0;
-
-		if (currentDay === 1) {
-			startDate = currentDate.getDate();
-		} else if (currentDay === 0) {
-			startDate = currentDate.getDate() - 6;
-		} else {
-			startDate = currentDate.getDate() - (currentDay - 1);
-		}
-
-		currentWeek = currentDate.setDate(startDate);
-	}
-
-	const weekDate = new Date(currentWeek),
-		weekString = `${weekDate.getDate()} ${months[weekDate.getMonth()]} ${weekDate.getFullYear()}`,
-		weekId = `${weekDate.getDate()}-${months[weekDate.getMonth()]}-${weekDate.getFullYear()}`,
+function App() {
+	const currentMonth = new Date(),
+		currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 }),
+		weekDate = new Date(currentWeek),
 		details = {
-			weekId,
-			weekString,
-			monthId,
-			monthString,
-			currentDay
+			weekId: weekId(weekDate),
+			weekString: weekString(weekDate),
+			monthId: monthId(currentMonth),
+			monthString: monthString(currentMonth)
 		};
-
-	console.log(process.env.GRAPHQL_URL);
 
 	return (
 		<Router>
@@ -73,6 +52,6 @@ const App = () => {
 			</Layout>
 		</Router>
 	);
-};
+}
 
 ReactDOM.render(<App />, document.getElementById(`app`));

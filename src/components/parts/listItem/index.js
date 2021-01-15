@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import {
-	gql, useQuery, ApolloClient, InMemoryCache, useMutation
+	gql, useMutation
 } from '@apollo/client';
 
-import { ADD_TASK, DELETE_TASK } from '../../../utils/fetchData/tasks';
+import { DELETE_TASK } from '../../../utils/fetchData/tasks';
 
 import Delete from '../../icons/delete';
 import Edit from '../../icons/edit';

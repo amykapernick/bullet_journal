@@ -33,7 +33,7 @@ const Notes = ({ section }) => {
 			<textarea
 				name="notes"
 				onChange={(e) => { changeLabel(e); }}
-				defaultValue={data?.note.notes}
+				defaultValue={data?.note?.notes}
 			>
 			</textarea>
 		</Fragment>

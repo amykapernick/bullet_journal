@@ -19,6 +19,7 @@
     "@svgr/parcel-plugin-svgr": "^5.5.0",
     "apollo-link-context": "^1.0.20",
     "babel-eslint": "^10.1.0",
+    "date-fns": "^2.16.1",
     "eslint": "^7.17.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-loader": "^4.0.2",

@@ -1,67 +1,53 @@
 import React, {
 	useState, useRef, useEffect, Fragment
 } from 'react';
+import {
+	getDaysInMonth, parse, format, set, getDay
+} from 'date-fns';
+import {
+	useQuery, useMutation
+} from '@apollo/client';
 
 import Event from '../event';
 
 import Add from '../../icons/add';
 import Close from '../../icons/close';
 
-import { days } from '../../../_data/dates';
 import uuid from '../../../utils/uuid';
 
-const MonthView = ({ monthId }) => {
-	const month = new Date(monthId),
-		monthNum = new Date(monthId).getMonth() + 1,
-		year = new Date(monthId).getFullYear(),
-		monthLength = new Date(new Date(month.setMonth(month.getMonth() + 1)).setDate(0)).getDate(),
-		dates = [],
-		localData = localStorage.getItem(`task_data`) ? JSON.parse(localStorage.getItem(`task_data`)) : false;
+import { GET_EVENTS } from '../../../utils/fetchData/events';
 
-	let n = 1,
-		initialEvents = [];
+const MonthView = ({ monthId }) => {
+	const month = parse(monthId, `MMM-yyyy`, new Date()),
+		monthNum = format(month, `M`),
+		year = format(month, `yyyy`),
+		monthLength = getDaysInMonth(month),
+		dates = [],
+		gql_options = {
+			variables: {
+				section: monthId
+			},
+			context: process.env.AUTH_TOKEN
+		},
+		{ loading, error, data } = useQuery(GET_EVENTS, gql_options);
+
+	let n = 1;
 
 	while (n <= monthLength) {
-		const day = new Date(monthId).setDate(n);
+		const day = set(month, { date: n });
 
 		dates.push({
 			date: n,
-			day: new Date(day).getDay()
+			day: getDay(day)
 		});
 
 		n++;
 	}
 
-	if (
-		localData
-		&& localData.month
-		&& localData.month[monthId]
-		&& localData.month[monthId].events
-	) {
-		initialEvents = localData.month[monthId].events;
-	}
-
-	const [events, setEvents] = useState(initialEvents),
-		[newEventOpen, openNewEvent] = useState(false),
-		saveLocal = (listData) => {
-			const local = JSON.parse(localStorage.getItem(`task_data`)),
-				localJournal = local ? local.month : {},
-				localList = (local && local.month) ? local.month[monthId] : {};
-
-			localStorage.setItem(`task_data`, JSON.stringify({
-				...local,
-				month: {
-					...localJournal,
-					[monthId]: {
-						...localList,
-						events: listData
-					}
-				}
-			}));
-		},
+	const [newEventOpen, openNewEvent] = useState(false),
 		addEvent = (e) => {
 			const { newEvent, eventStart, eventEnd } = e.target.elements,
-				list = events;
+				list = data.events;
 
 			list.push({
 				id: uuid(),
@@ -70,18 +56,18 @@ const MonthView = ({ monthId }) => {
 				endDate: eventEnd.value
 			});
 
-			setEvents(list);
+			// setEvents(list);
 
-			saveLocal(events);
+			// saveLocal(events);
 		},
 		deleteEvent = (index) => {
-			const list = events;
+			const list = data.events;
 
 			list.splice(index, 1);
 
-			setEvents(list);
+			// setEvents(list);
 
-			saveLocal(events);
+			// saveLocal(events);
 
 			location.reload();
 		},
@@ -90,7 +76,7 @@ const MonthView = ({ monthId }) => {
 				const { current } = ref,
 					newLabel = e.target.value,
 					eventId = parseInt(current.getAttribute(`data-id`)),
-					list = events;
+					list = data.events;
 
 				list.some((event) => {
 					if (parseInt(event.id) === eventId) {
@@ -100,9 +86,9 @@ const MonthView = ({ monthId }) => {
 					return event.id === eventId;
 				});
 
-				setEvents(list);
+				// setEvents(list);
 
-				saveLocal(events);
+				// saveLocal(events);
 			}
 		},
 		changeDate = (ref, e) => {
@@ -110,7 +96,7 @@ const MonthView = ({ monthId }) => {
 				const { current } = ref,
 					newDate = e.target.value,
 					eventId = parseInt(current.getAttribute(`data-id`)),
-					list = events;
+					list = data.events;
 
 				list.some((event) => {
 					if (parseInt(event.id) === eventId) {
@@ -120,14 +106,14 @@ const MonthView = ({ monthId }) => {
 					return event.id === eventId;
 				});
 
-				setEvents(list);
+				// setEvents(list);
 
-				saveLocal(events);
+				// saveLocal(events);
 			}
+		},
+		editForm = (ref, e) => {
+			changeLabel(ref, { target: e.target.elements.label });
 		};
-	editForm = (ref, e) => {
-		changeLabel(ref, { target: e.target.elements.label });
-	};
 
 	let row = 1,
 		column = 1;
@@ -183,12 +169,17 @@ const MonthView = ({ monthId }) => {
 					styles[`--row`] = row;
 
 					return (
-						<li key={date} data-day={days[day]} className="day" style={styles}>
+						<li
+							key={date}
+							data-day={format(set(month, { date }), `EEE`)}
+							className="day"
+							style={styles}
+						>
 							<p>{date}</p>
 						</li>
 					);
 				})}
-				{events.map((event, index) => (
+				{data?.events && data.events.map((event, index) => (
 					<Event key={event.id} {...{
 						...event,
 						index,

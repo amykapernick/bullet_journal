@@ -1,16 +1,14 @@
 import React, {
 	useState, useEffect, Fragment
 } from 'react';
-import { useLocation } from 'react-router-dom';
 import {
-	gql, useQuery, ApolloClient, InMemoryCache, useMutation
+	useQuery, useMutation
 } from '@apollo/client';
 
 import Item from '../listItem';
 
 import Close from '../../icons/close';
 import Add from '../../icons/add';
-import uuid from '../../../utils/uuid';
 import { GET_TASKS, ADD_TASK } from '../../../utils/fetchData/tasks';
 
 const List = ({ listId, section }) => {
