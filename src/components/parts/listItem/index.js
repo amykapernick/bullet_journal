@@ -16,40 +16,24 @@ const Item = ({
 	const ref = useRef(null),
 		[editTaskOpen, openEditTask] = useState(false),
 		[completeTask] = useMutation(EDIT_TASK),
-		[deleteTask] = useMutation(DELETE_TASK, {
-			update(cache, { data: { deleteTask } }) {
-				cache.modify({
-					fields: {
-						tasks(existingTasks = []) {
-							const newTaskRef = cache.writeFragment({
-								data: deleteTask,
-								fragment: gql`
-									fragment newTask on Task {
-										id
-										name
-									}
-								`
-							});
-							return [...existingTasks, newTaskRef];
-						}
-					}
-				});
-			}
-		});
+		[editTask] = useMutation(EDIT_TASK),
+		[deleteTask] = useMutation(DELETE_TASK);
 	return (
 		<li key={index} ref={ref} data-id={id}>
 			<input
 				type="checkbox"
 				name={`checkbox`}
 				defaultChecked={completed}
-				onChange={useMutation(EDIT_TASK, {
-					variables: {
-						task: {
-							id,
-							completed: !completed
+				onChange={() => {
+					completeTask({
+						variables: {
+							task: {
+								id,
+								completed: !completed
+							}
 						}
-					}
-				})}
+					});
+				}}
 				id={`${taskId}_checkbox`}
 			/>
 			<label
@@ -68,13 +52,35 @@ const Item = ({
 					<Close />
 					<span className="sr-only">Close Modal</span>
 				</button>
-				<form onSubmit={(e) => { functions.changeLabelForm(ref, e); }}>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						editTask({
+							variables: {
+								task: {
+									id,
+									name: e.target.elements[`label_${id}`].value
+								}
+							}
+						});
+						openEditTask(!editTaskOpen);
+					}}
+				>
 					<legend>Edit Task</legend>
 					<input
 						type="checkbox"
 						name={`checkbox_modal`}
 						defaultChecked={completed}
-						onChange={(e) => { functions.completeTask(ref, e); }}
+						onChange={() => {
+							completeTask({
+								variables: {
+									task: {
+										id,
+										completed: !completed
+									}
+								}
+							});
+						}}
 						id={`${taskId}_checkbox_modal`}
 					/>
 					<label
@@ -89,8 +95,7 @@ const Item = ({
 					<input
 						type="text"
 						defaultValue={name}
-						name={`label`}
-						onChange={(e) => { functions.changeLabel(ref, e); }}
+						name={`label_${id}`}
 					/>
 					<button className="icon remove" type="button" onClick={() => {
 						deleteTask({

@@ -9,7 +9,7 @@ import Item from '../listItem';
 
 import Close from '../../icons/close';
 import Add from '../../icons/add';
-import { GET_TASKS, ADD_TASK, EDIT_TASK } from '../../../utils/fetchData/tasks';
+import { GET_TASKS, ADD_TASK } from '../../../utils/fetchData/tasks';
 
 const List = ({ listId, section }) => {
 	const gql_options = {
@@ -32,7 +32,7 @@ const List = ({ listId, section }) => {
 
 	if (error) {
 		return (
-			<p className="list">Whoops, looks like soemthing went wrong. Try that again...</p>
+			<p className="list">Whoops, looks like something went wrong. Try that again...</p>
 		);
 	}
 
