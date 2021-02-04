@@ -1,6 +1,6 @@
 {
-  "name": "front_end_fundamentals-css_layouts",
-  "version": "2.0.0",
+  "name": "bullet-journal",
+  "version": "1.0.0",
   "main": "static/index.html",
   "scripts": {
     "start": "parcel static/index.html",

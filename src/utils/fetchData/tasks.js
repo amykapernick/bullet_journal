@@ -24,6 +24,17 @@ export const ADD_TASK = gql`
 	}
 `;
 
+export const EDIT_TASK = gql`
+	mutation EditTask($task: TaskInput!) {
+		editTask(task: $task) {
+			name
+			id
+			completed
+			due
+		}
+	}
+`;
+
 export const DELETE_TASK = gql`
 	mutation DeleteTask($task: ID!) {
 		deleteTask(task: $task) {

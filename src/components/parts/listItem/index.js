@@ -3,7 +3,7 @@ import {
 	gql, useMutation
 } from '@apollo/client';
 
-import { DELETE_TASK } from '../../../utils/fetchData/tasks';
+import { DELETE_TASK, EDIT_TASK } from '../../../utils/fetchData/tasks';
 
 import Delete from '../../icons/delete';
 import Edit from '../../icons/edit';
@@ -15,6 +15,7 @@ const Item = ({
 }) => {
 	const ref = useRef(null),
 		[editTaskOpen, openEditTask] = useState(false),
+		[completeTask] = useMutation(EDIT_TASK),
 		[deleteTask] = useMutation(DELETE_TASK, {
 			update(cache, { data: { deleteTask } }) {
 				cache.modify({
@@ -41,7 +42,14 @@ const Item = ({
 				type="checkbox"
 				name={`checkbox`}
 				defaultChecked={completed}
-				onChange={(e) => { functions.completeTask(ref, e); }}
+				onChange={useMutation(EDIT_TASK, {
+					variables: {
+						task: {
+							id,
+							completed: !completed
+						}
+					}
+				})}
 				id={`${taskId}_checkbox`}
 			/>
 			<label

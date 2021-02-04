@@ -9,7 +9,7 @@ import Item from '../listItem';
 
 import Close from '../../icons/close';
 import Add from '../../icons/add';
-import { GET_TASKS, ADD_TASK } from '../../../utils/fetchData/tasks';
+import { GET_TASKS, ADD_TASK, EDIT_TASK } from '../../../utils/fetchData/tasks';
 
 const List = ({ listId, section }) => {
 	const gql_options = {
@@ -20,80 +20,9 @@ const List = ({ listId, section }) => {
 			context: process.env.AUTH_TOKEN
 		},
 		{ loading, error, data } = useQuery(GET_TASKS, gql_options),
-		// [todos, setTodos] = useState(data?.tasks || []),
 		[newTaskOpen, openNewTask] = useState(false),
 		[addMultiple, toggleInputMethod] = useState(false),
-		completeTask = (ref, e) => {
-			const { current } = ref,
-				checkbox = e.target,
-				taskId = parseInt(current.getAttribute(`data-id`)),
-				list = todos;
-
-			list.some((task) => {
-				if (parseInt(task.id) === taskId) {
-					task.completed = checkbox.checked;
-				}
-
-				return task.id === taskId;
-			});
-
-			setTodos(list);
-
-			// saveLocal(todos);
-		},
-		changeLabel = (ref, e) => {
-			if (e && ref) {
-				const { current } = ref,
-					newLabel = e.target.value,
-					taskId = parseInt(current.getAttribute(`data-id`)),
-					list = todos;
-
-				list.some((task) => {
-					if (parseInt(task.id) === taskId) {
-						task.name = newLabel;
-					}
-
-					return task.id === taskId;
-				});
-
-				setTodos(list);
-
-				// saveLocal(todos);
-			}
-		},
-		changeLabelForm = (ref, e) => {
-			changeLabel(ref, { target: e.target.elements.label });
-		},
-		deleteTask = (index) => {
-			const list = data.tasks;
-
-			list.splice(index, 1);
-
-			// setTodos(list);
-
-			// saveLocal(todos);
-
-			// location.reload();
-		},
-		[addTask] = useMutation(ADD_TASK),
-		addMultipleTask = (e) => {
-			const newLabel = e.target.elements[`${listId}_newTask`].value,
-				newTasks = newLabel.split(`\n`);
-
-			newTasks.forEach((task) => {
-				addTask({
-					target: {
-						elements: {
-							[`${listId}_newTask`]: {
-								value: task
-							}
-						}
-					}
-				});
-			});
-		};
-
-	// useEffect(() => { setTodos(data?.tasks || []); }, [data]);
+		[addTask] = useMutation(ADD_TASK);
 
 	if (loading) {
 		return (
@@ -129,7 +58,6 @@ const List = ({ listId, section }) => {
 							}
 						});
 						openNewTask(!newTaskOpen);
-						// location.reload();
 					}}
 				>
 					<legend>Add New Task</legend>
@@ -144,7 +72,28 @@ const List = ({ listId, section }) => {
 						<span className="sr-only">Add Task</span>
 					</button>
 				</form>
-				<form className="toggle" onSubmit={(e) => addMultipleTask(e)} open={addMultiple}>
+				<form
+					className="toggle"
+					open={addMultiple}
+					onSubmit={(e) => {
+						e.preventDefault();
+						const newLabel = e.target.elements[`${listId}_newTask`].value,
+							newTasks = newLabel.split(`\n`);
+
+						newTasks.forEach((task) => {
+							addTask({
+								variables: {
+									task: {
+										list: listId,
+										section,
+										name: task
+									}
+								}
+							});
+						});
+						openNewTask(!newTaskOpen);
+					}}
+				>
 					<legend>Add New Tasks</legend>
 					<label className="sr-only">New Tasks</label>
 					<textarea
@@ -175,13 +124,7 @@ const List = ({ listId, section }) => {
 						{...{
 							...task,
 							index,
-							taskId: task.id,
-							functions: {
-								completeTask,
-								changeLabelForm,
-								changeLabel,
-								deleteTask
-							}
+							taskId: task.id
 						}}
 					/>
 				))}

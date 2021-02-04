@@ -14,7 +14,7 @@ const Week = ({ weekId }) => (
 				}}
 			/>
 		</section>
-		<section className="events">
+		{/* <section className="events">
 			<h2>Events</h2>
 			<List
 				{...{
@@ -121,7 +121,7 @@ const Week = ({ weekId }) => (
 					/>
 				</li>
 			</ul>
-		</section>
+		</section> */}
 	</Fragment>
 
 );
