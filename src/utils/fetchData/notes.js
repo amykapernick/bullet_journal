@@ -14,15 +14,30 @@ export const GET_NOTE = gql`
 		}
 `;
 
-// export const EDITNOTE = gql``;
+export const EDIT_NOTE = gql`
+	mutation editNote($note: NoteInput!) {
+		editNote(note: $note) {
+			id
+			notes
+			section {
+				sectionId
+			}
+		}
+	}
+`;
 
-// export const ADD_TASK = gql`
-// 	mutation AddTask($task: TaskInput!) {
-// 		addTask(task: $task) {
-// 			name
-// 			id
-// 			completed
-// 			due
-// 		}
-// 	}
-// `;
+export const ADD_NOTE = gql`
+	mutation addNote($note: NoteInput!, $section: SectionInput!) {
+		addSection(section: $section) {
+			sectionId
+			period
+		}
+		addNote(note: $note) {
+			id
+			notes
+			section {
+				sectionId
+			}
+		}
+	}
+`;

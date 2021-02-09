@@ -1,11 +1,11 @@
 import React, {
-	useState, useEffect, Fragment
+	useState, useEffect, Fragment, useRef
 } from 'react';
 import {
 	gql, useQuery, ApolloClient, InMemoryCache, useMutation
 } from '@apollo/client';
 
-import { GET_NOTE } from '../../../utils/fetchData/notes';
+import { GET_NOTE, EDIT_NOTE, ADD_NOTE } from '../../../utils/fetchData/notes';
 
 const Notes = ({ section }) => {
 	const { loading, error, data } = useQuery(GET_NOTE, {
@@ -13,26 +13,47 @@ const Notes = ({ section }) => {
 				section
 			}
 		}),
-		changeLabel = (e) => {
-			if (e) {
-				const newNotes = e.target.value;
+		ref = useRef(),
+		[editNote] = useMutation(EDIT_NOTE),
+		[addNote] = useMutation(ADD_NOTE);
 
-				// setNotes(newNotes);
-
-				// saveLocal(notes);
-			}
-		};
-
-	// console.log(data);
-
-	// useEffect(() => { saveLocal(notes); }, [notes]);
+	useEffect(() => {
+		if (!loading && !error && data?.note == null) {
+			addNote({
+				variables: {
+					note: {
+						section: {
+							sectionId: section,
+						},
+						notes: ``
+					},
+					section: {
+						sectionId: section,
+						period: `week`
+					}
+				}
+			});
+		}
+	}, [loading]);
 
 	return (
 		<Fragment>
 			<label className="sr-only">Edit Notes</label>
 			<textarea
+				ref={ref}
 				name="notes"
-				onChange={(e) => { changeLabel(e); }}
+				onChange={() => {
+					editNote({
+						variables: {
+							note: {
+								section: {
+									sectionId: section
+								},
+								notes: ref.current.value
+							}
+						}
+					});
+				}}
 				defaultValue={data?.note?.notes}
 			>
 			</textarea>

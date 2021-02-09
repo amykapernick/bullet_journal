@@ -24,6 +24,17 @@ export const ADD_EVENT = gql`
 	}
 `;
 
+export const EDIT_EVENT = gql`
+	mutation EditEvent($event: EventInput!) {
+		editEvent(event: $event) {
+			name
+			id
+			startDate
+			endDate
+		}
+	}
+`;
+
 export const DELETE_EVENT = gql`
 	mutation DeleteEvent($event: ID!) {
 		deleteEvent(event: $event) {

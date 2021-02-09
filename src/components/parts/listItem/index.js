@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import {
-	gql, useMutation
+	useMutation
 } from '@apollo/client';
 
 import { DELETE_TASK, EDIT_TASK } from '../../../utils/fetchData/tasks';
@@ -11,7 +11,7 @@ import Close from '../../icons/close';
 import Check from '../../icons/check';
 
 const Item = ({
-	index, taskId, id, completed, name, functions
+	index, taskId, id, completed, name
 }) => {
 	const ref = useRef(null),
 		[editTaskOpen, openEditTask] = useState(false),
@@ -97,15 +97,19 @@ const Item = ({
 						defaultValue={name}
 						name={`label_${id}`}
 					/>
-					<button className="icon remove" type="button" onClick={() => {
-						deleteTask({
-							variables: {
-								task: id
-							}
-						});
-						openEditTask(!editTaskOpen);
-						// location.reload();
-					}}>
+					<button
+						className="icon remove"
+						type="button"
+						onClick={() => {
+							deleteTask({
+								variables: {
+									task: id
+								}
+							});
+							openEditTask(!editTaskOpen);
+							// location.reload();
+						}}
+					>
 						<Delete />
 						<span className="sr-only">Delete Task</span>
 					</button>
