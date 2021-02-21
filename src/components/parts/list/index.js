@@ -24,9 +24,9 @@ const List = ({ listId, section }) => {
 		[addMultiple, toggleInputMethod] = useState(false),
 		[addTask] = useMutation(ADD_TASK);
 
-	console.log({
-		listId, loading, error, data
-	});
+	// console.log({
+	// 	listId, loading, error, data
+	// });
 
 	if (loading) {
 		return (
