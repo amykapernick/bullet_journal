@@ -24,6 +24,10 @@ const List = ({ listId, section }) => {
 		[addMultiple, toggleInputMethod] = useState(false),
 		[addTask] = useMutation(ADD_TASK);
 
+	console.log({
+		listId, loading, error, data
+	});
+
 	if (loading) {
 		return (
 			<p className="list">Loading...</p>
@@ -54,6 +58,9 @@ const List = ({ listId, section }) => {
 									list: listId,
 									section,
 									name: e.target.elements[`${listId}_newTask`].value
+								},
+								section: {
+									sectionId: section,
 								}
 							}
 						});
