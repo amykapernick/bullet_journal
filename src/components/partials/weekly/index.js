@@ -52,7 +52,7 @@ const Week = ({ weekId }) => (
 		</section>
 		<section className="notes">
 			<h2>Notes</h2>
-			{/* <Notes {...{ section: weekId }} /> */}
+			<Notes {...{ section: weekId }} />
 		</section>
 		<section className="days">
 			<h2 className="sr-only">Days</h2>

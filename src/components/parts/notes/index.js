@@ -17,29 +17,29 @@ const Notes = ({ section }) => {
 		[editNote] = useMutation(EDIT_NOTE),
 		[addNote] = useMutation(ADD_NOTE);
 
-	useEffect(() => {
-		if (!loading && !error && data?.note == null) {
-			addNote({
-				variables: {
-					note: {
-						section: {
-							sectionId: section,
-						},
-						notes: ``
-					},
-					section: {
-						sectionId: section,
-						period: `week`
-					}
-				}
-			});
-		}
-	}, [loading]);
+	// useEffect(() => {
+	// 	if (!loading && !error && data?.note == null) {
+	// 		addNote({
+	// 			variables: {
+	// 				note: {
+	// 					section: {
+	// 						sectionId: section,
+	// 					},
+	// 					notes: ``
+	// 				},
+	// 				section: {
+	// 					sectionId: section,
+	// 					period: `week`
+	// 				}
+	// 			}
+	// 		});
+	// 	}
+	// }, [loading]);
 
 	return (
 		<Fragment>
 			<label className="sr-only">Edit Notes</label>
-			<textarea
+			{/* <textarea
 				ref={ref}
 				name="notes"
 				onChange={() => {
@@ -56,7 +56,7 @@ const Notes = ({ section }) => {
 				}}
 				defaultValue={data?.note?.notes}
 			>
-			</textarea>
+			</textarea> */}
 		</Fragment>
 	);
 };
