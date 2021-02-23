@@ -17,7 +17,7 @@ const List = ({ listId, section }) => {
 				list: listId,
 				section
 			},
-			context: process.env.AUTH_TOKEN
+			context: process.env.NEXT_PUBLIC_AUTH_TOKEN
 		},
 		{ loading, error, data } = useQuery(GET_TASKS, gql_options),
 		[newTaskOpen, openNewTask] = useState(false),

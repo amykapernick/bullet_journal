@@ -27,7 +27,7 @@ const MonthView = ({ monthId }) => {
 			variables: {
 				section: monthId
 			},
-			context: process.env.AUTH_TOKEN
+			context: process.env.NEXT_PUBLIC_AUTH_TOKEN
 		},
 		{ loading, error, data } = useQuery(GET_EVENTS, gql_options);
 
