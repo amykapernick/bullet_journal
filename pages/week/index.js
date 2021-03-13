@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { useRouter } from 'next/router';
 import { parse } from 'date-fns';
 
 import WeeklyLayout from '../../components/partials/weekly';

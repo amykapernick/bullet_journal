@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { parse } from 'date-fns';
+import { parse, add, sub } from 'date-fns';
 
 import * as generate from '../../../utils/generateIds';
 
@@ -14,13 +14,13 @@ const Header = ({ weekId, monthId }) => {
 	if (page === `week`) {
 		const current = parse(weekId, `dd-MMM-yyyy`, new Date());
 
-		prev = new Date(current).setDate(current.getDate() - 7);
-		next = new Date(current).setDate(current.getDate() + 7);
+		prev = sub(current, { days: 7 });
+		next = add(current, { days: 7 });
 	} else if (page === `month`) {
 		const current = parse(monthId, `MMM-yyyy`, new Date());
 
-		prev = new Date(current).setDate(current.getDate() - 7);
-		next = new Date(current).setDate(current.getDate() + 7);
+		prev = sub(current, { months: 1 });
+		next = add(current, { months: 1 });
 	}
 
 	return (
