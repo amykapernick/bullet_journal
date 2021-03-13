@@ -5,7 +5,9 @@ import {
 
 import Header from '../header';
 
-const Layout = ({ children, weekId, monthId }) => {
+const Layout = ({
+	children, className, weekId, monthId
+}) => {
 	// const className = `${useLocation().pathname.replace(/^\//, ``).split(`/`)[0]}`;
 
 	console.log();
@@ -13,7 +15,7 @@ const Layout = ({ children, weekId, monthId }) => {
 	return (
 		<Fragment>
 			<Header {...{ monthId, weekId }} />
-			<main className={`className`}>
+			<main className={`${className}`}>
 				{children}
 			</main>
 		</Fragment>

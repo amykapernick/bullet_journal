@@ -3,10 +3,10 @@
 .week {
 	display: grid;
 	grid-template-areas:
-		'date	days	days		days	days'
-		'goals	days	days		days	days'
-		'events	days	days		days	days'
-		'work	work	personal	self	notes';
+		'date	days		days		days	days'
+		'goals	days		days		days	days'
+		'events	days		days		days	days'
+		'work	personal	self		notes	notes';
 	grid-template-columns: repeat(2, 1fr) repeat(3, 2fr);
 	grid-template-rows: auto 1fr 1fr auto;
 
@@ -40,6 +40,6 @@
 
 	.days {
 		grid-area: days;
+		overflow-x: scroll;
 	}
 }
-

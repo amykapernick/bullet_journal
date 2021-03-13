@@ -1,11 +1,5 @@
 @use '../variables.scss';
 
-#app {
-	display: grid;
-	grid-template-rows: auto 1fr;
-	min-height: 100vh;
-}
-
 main {
 	section {
 		padding: 10px 20px;

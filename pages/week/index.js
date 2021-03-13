@@ -11,7 +11,7 @@ const WeekPage = ({ weekId }) => {
 	const currentWeek = parse(weekId, `dd-MMM-yyyy`, new Date());
 
 	return (
-		<Layout>
+		<Layout className="week" weekId={weekId}>
 			<h1 className="date">{generateString(currentWeek)}</h1>
 			<WeeklyLayout weekId={generateId(currentWeek)} />
 		</Layout>

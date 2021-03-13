@@ -2,24 +2,25 @@ import React, { Fragment } from 'react';
 import {
 	ApolloProvider, ApolloClient, InMemoryCache
 } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 import { startOfWeek } from 'date-fns';
 
 import {
-	weekId, weekString, monthId, monthString
+	weekId, monthId
 } from '../utils/generateIds';
 
 import '../src/scss/main.scss';
 
 const App = ({ Component, pageProps }) => {
-	const currentMonth = new Date(),
+	const router = useRouter(),
+		{ query } = router,
+		currentMonth = new Date(),
 		currentWeek = startOfWeek(new Date(), { weekStartsOn: 1 }),
 		weekDate = new Date(currentWeek),
 		details = {
-			weekId: weekId(weekDate),
-			weekString: weekString(weekDate),
-			monthId: monthId(currentMonth),
-			monthString: monthString(currentMonth),
+			weekId: query.weekId || weekId(weekDate),
+			monthId: query.monthId || monthId(currentMonth),
 			...pageProps
 		};
 

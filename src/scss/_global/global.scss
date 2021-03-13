@@ -18,3 +18,9 @@ body, html {
 	position: absolute;
 	right: -200vw;
 }
+
+#__next {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	min-height: 100vh;
+}
