@@ -41,6 +41,8 @@ Main.getInitialProps = (appContext) => {
 	// calls page's `getInitialProps` and fills `appProps.pageProps`
 	const appProps = App.getInitialProps(appContext);
 
+	console.log(appProps);
+
 	return { ...appProps };
 };
 

@@ -28,33 +28,35 @@ const Header = ({ weekId, monthId }) => {
 			<h1><Link href="/">Bullet Journal</Link></h1>
 			<nav>
 				<ul>
-					<li><Link href="/week">Weekly View</Link></li>
-					<li><Link href="/month">Monthly View</Link></li>
+					<li><Link href="/week">
+						<a>Weekly View</a>
+					</Link></li>
+					<li><Link href="/month"><a>Monthly View</a></Link></li>
 					{page === `week`
 						&& <Fragment>
 							<li>
-								<a href={`/week/${generate.weekId(new Date(prev))}`}>
-									Previous Week
-								</a>
+								<Link href={`/week/${generate.weekId(new Date(prev))}`}>
+									<a>Previous Week</a>
+								</Link>
 							</li>
 							<li>
-								<a href={`/week/${generate.weekId(new Date(next))}`}>
-									Next Week
-								</a>
+								<Link href={`/week/${generate.weekId(new Date(next))}`}>
+									<a>Next Week</a>
+								</Link>
 							</li>
 						</Fragment>
 					}
 					{page === `month`
 						&& <Fragment>
 							<li>
-								<a href={`/month/${generate.monthId(new Date(prev))}`}>
-									Previous Month
-								</a>
+								<Link href={`/month/${generate.monthId(new Date(prev))}`}>
+									<a>Previous Month</a>
+								</Link>
 							</li>
 							<li>
-								<a href={`/month/${generate.monthId(new Date(next))}`}>
-									Next Month
-								</a>
+								<Link href={`/month/${generate.monthId(new Date(next))}`}>
+									<a>Next Month</a>
+								</Link>
 							</li>
 						</Fragment>
 					}
