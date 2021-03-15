@@ -3,6 +3,7 @@ import {
 	ApolloProvider, ApolloClient, InMemoryCache
 } from '@apollo/client';
 import { useRouter } from 'next/router';
+import App from 'next/app';
 
 import { startOfWeek } from 'date-fns';
 
@@ -12,7 +13,7 @@ import {
 
 import '../src/scss/main.scss';
 
-const App = ({ Component, pageProps }) => {
+const Main = ({ Component, pageProps }) => {
 	const router = useRouter(),
 		{ query } = router,
 		currentMonth = new Date(),
@@ -36,4 +37,11 @@ const App = ({ Component, pageProps }) => {
 	);
 };
 
-export default App;
+Main.getInitialProps = (appContext) => {
+	// calls page's `getInitialProps` and fills `appProps.pageProps`
+	const appProps = App.getInitialProps(appContext);
+
+	return { ...appProps };
+};
+
+export default Main;
