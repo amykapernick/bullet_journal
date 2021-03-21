@@ -13,9 +13,6 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/client": "^3.3.11",
-    "@babel/preset-env": "^7.13.10",
-    "@babel/preset-react": "^7.12.13",
-    "apollo-link-context": "^1.0.20",
     "babel-eslint": "^10.1.0",
     "date-fns": "^2.19.0",
     "eslint": "^7.22.0",
@@ -32,7 +29,6 @@
     "react-helmet": "^6.1.0",
     "react-inlinesvg": "^2.2.2",
     "react-router-dom": "^5.2.0",
-    "reat": "^0.0.1-security",
     "sass": "^1.32.8",
     "stylelint": "^13.12.0",
     "stylelint-config-property-sort-order-smacss": "^7.0.0",
@@ -40,7 +36,6 @@
     "stylelint-scss": "^3.19.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
-    "babel-loader": "^8.2.2"
+    "@netlify/plugin-nextjs": "^3.0.3"
   }
 }
