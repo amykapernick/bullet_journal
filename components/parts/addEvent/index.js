@@ -9,13 +9,34 @@ import {
 } from 'date-fns';
 import React, { Fragment } from 'react';
 
-import { DELETE_EVENT, EDIT_EVENT, FETCH_EVENTS } from '../../../utils/api/events';
+import { ADD_EVENT } from '../../../utils/api/events';
 
-const UpdateEvent = ({
-	name, id, startDate, endDate, sectionId, toggleModal
-}) => {
-	const [editEvent] = useMutation(EDIT_EVENT);
-
+const AddEvent = ({ toggleModal, sectionId }) => {
+	const [addEvent] = useMutation(ADD_EVENT, {
+		update(cache, { data: { addEvent } }) {
+			cache.modify({
+				fields: {
+					events(existingEvents = []) {
+						const newEventRef = cache.writeFragment({
+							data: addEvent,
+							fragment: gql`
+								fragment NewEvent on Event {
+									name
+									startDate
+									endDate
+									id  
+									section {
+										sectionId
+									}
+								}
+							`
+						});
+						return [...existingEvents, newEventRef];
+					}
+				}
+			});
+		}
+	});
 	const min = startOfMonth(parse(
 		sectionId,
 		`MMM-yyyy`,
@@ -35,40 +56,27 @@ const UpdateEvent = ({
 
 					const { elements } = e.target;
 
-					let start = parse(
+					const start = parse(
 						elements.start.value,
 						`yyyy-MM-dd`,
 						new Date()
 					);
-					let end = elements.end.value && parse(
+					const end = elements.end.value && parse(
 						elements.end.value,
 						`yyyy-MM-dd`,
 						new Date()
 					);
 
-					if (elements.section.value !== sectionId) {
-						const month = getMonth(parse(
-							elements.section.value,
-							`MMM-yyyy`,
-							new Date()
-						));
-
-						start = setMonth(start, month);
-
-						end = end && setMonth(end, month);
-					}
-
-					editEvent({
+					addEvent({
 						variables: {
 							section: {
 								sectionId
 							},
 							event: {
-								id,
 								name: elements.name.value,
 								startDate: start,
 								endDate: end,
-								section: elements.section.value
+								section: sectionId
 							}
 						}
 					});
@@ -78,65 +86,46 @@ const UpdateEvent = ({
 			>
 				<label
 					className="sr-only"
-					htmlFor={`${id}_name`}
+					htmlFor={`${sectionId}_name`}
 				>
-					Change Event Name
+					Event Name
 				</label>
 				<input
+					placeholder="Upcoming Event Name"
 					type="text"
 					name={`name`}
-					id={`${id}_name`}
-					defaultValue={name}
+					id={`${sectionId}_name`}
 				/>
 				<label
 					className="sr-only"
-					htmlFor={`${id}_start`}
+					htmlFor={`${sectionId}_start`}
 				>
-					Change Start Date
+					Start Date
 				</label>
 				<input
 					type="date"
-					id={`${id}_start`}
+					id={`${sectionId}_start`}
 					name={`start`}
-					defaultValue={startDate
-					&& format(new Date(startDate), `yyyy-MM-dd`)
-					}
 					min={format(new Date(min), `yyyy-MM-dd`)}
 					max={format(new Date(max), `yyyy-MM-dd`)}
 				/>
 				<label
 					className="sr-only"
-					htmlFor={`${id}_start`}
+					htmlFor={`${sectionId}_start`}
 				>
-					Change End Date
+					End Date
 				</label>
 				<input
 					type="date"
-					id={`${id}_end`}
+					id={`${sectionId}_end`}
 					name={`end`}
-					defaultValue={endDate
-					&& format(new Date(endDate), `yyyy-MM-dd`)
-					}
 					min={format(new Date(min), `yyyy-MM-dd`)}
 					max={format(new Date(max), `yyyy-MM-dd`)}
 				/>
-				<label
-					className="sr-only"
-					htmlFor={`${id}_section`}
-				>
-					Change Section
-				</label>
-				<input
-					type="text"
-					name={`section`}
-					id={`${id}_section`}
-					defaultValue={sectionId}
-				/>
-				<button type="submit">Update Event</button>
+				<button type="submit">Create Event</button>
 			</form>
-
 		</Fragment>
 	);
 };
 
-export default UpdateEvent;
+export default AddEvent;

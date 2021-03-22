@@ -7,16 +7,18 @@ import React, {
 } from 'react';
 
 import { FETCH_EVENTS } from '../../../utils/api/events';
+import AddEvent from '../addEvent';
 import Event from '../eventItem';
 
-const Events = ({ month }) => {
+const Events = ({ sectionId }) => {
 	const options = {
 		variables: {
-			section: month,
+			section: sectionId,
 		},
 		context: process.env.NEXT_PUBLIC_AUTH_TOKEN
 	};
 	const { loading, error, data } = useQuery(FETCH_EVENTS, options);
+	const [addModal, toggleModal] = useState(false);
 
 	if (loading) return <p>Events are loading</p>;
 
@@ -24,6 +26,17 @@ const Events = ({ month }) => {
 
 	return (
 		<Fragment>
+			<button
+				type="button"
+				onClick={() => toggleModal(!addModal)}
+			>
+				Add Event
+			</button>
+			{addModal
+				&& <div>
+					<AddEvent {...{ sectionId, toggleModal }} />
+				</div>
+			}
 			{data?.events?.map((event) => (
 				<Event key={event.id} {...{ ...event }} />
 			))}

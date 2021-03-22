@@ -10,17 +10,15 @@ const ListItem = ({
 	name, id, completed, due, sectionId, listId
 }) => {
 	const refetch = {
-		update: {
-			refetchQueries: [
-				{
-					query: FETCH_TASKS,
-					variables: {
-						section: sectionId,
-						list: listId
-					}
+		refetchQueries: [
+			{
+				query: FETCH_TASKS,
+				variables: {
+					section: sectionId,
+					list: listId
 				}
-			]
-		}
+			}
+		]
 	};
 	const details = {
 		variables: {
