@@ -1,11 +1,8 @@
 import {
-	gql,
-	useMutation,
-	useQuery
+	useMutation
 } from '@apollo/client';
 import React, {
-	Fragment,
-	useEffect, 	useState
+	Fragment, 	useState
 } from 'react';
 
 import { FETCH_TASKS } from '../../../utils/api/section';
@@ -15,7 +12,29 @@ const AddTask = ({
 	listId, sectionId, toggleModalOpen
 }) => {
 	const [addMultiple, toggleInputMethod] = useState(false);
-	const [addTask] = useMutation(ADD_TASK);
+	const [addTask] = useMutation(ADD_TASK, {
+		update(cache, { data: { addTask } }) {
+			cache.modify({
+				fields: {
+					tasks(existingTasks = []) {
+						const newTaskRef = cache.writeFragment({
+							data: addTask,
+							fragment: gql`
+								fragment NewTask on Task {
+									name
+									id
+									completed
+									due
+									type
+								}
+								`
+						});
+						return [...existingTasks, newTaskRef];
+					}
+				}
+			});
+		}
+	});
 	const createTask = (name) => {
 		addTask({
 			variables: {
@@ -27,15 +46,6 @@ const AddTask = ({
 				section: {
 					sectionId,
 				}
-			},
-			options: {
-				refetchQueries: [{
-					query: FETCH_TASKS,
-					variables: {
-						section: sectionId,
-						list: listId
-					}
-				}]
 			}
 		});
 

@@ -1,5 +1,4 @@
 import {
-	useMutation,
 	useQuery
 } from '@apollo/client';
 import React, {
@@ -8,7 +7,6 @@ import React, {
 } from 'react';
 
 import { FETCH_TASKS } from '../../../utils/api/section';
-import { ADD_TASK } from '../../../utils/api/task';
 import generateSectionName from '../../../utils/list/generateSectionName';
 import AddTask from '../addTask';
 import ListItem from '../listItem';
