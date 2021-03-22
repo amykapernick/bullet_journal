@@ -6,7 +6,7 @@ import React from 'react';
 
 import { ADD_NOTES, EDIT_NOTES, FETCH_NOTES } from "../../../utils/api/notes";
 
-const Notes = ({ sectionId }) => {
+const Notes = ({ sectionId, className }) => {
 	const options = {
 		variables: {
 			section: sectionId,
@@ -52,6 +52,7 @@ const Notes = ({ sectionId }) => {
 
 	return (
 		<textarea
+			className={className}
 			name={`${sectionId}_notes`}
 			defaultValue={data?.note?.notes}
 			onBlur={(e) => updateNotes(e)}

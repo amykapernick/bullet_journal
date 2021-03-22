@@ -7,6 +7,7 @@ import React, { Fragment } from 'react';
 
 import lists from '../../../_data/lists/index';
 import { DELETE_TASK, EDIT_TASK } from '../../../utils/api/task';
+import styles from './updateTask.module.scss';
 
 const UpdateTask = ({
 	name, id, completed, due, sectionId, listId, toggleModal
@@ -16,6 +17,7 @@ const UpdateTask = ({
 	return (
 		<Fragment>
 			<form
+				className={styles.form}
 				onSubmit={(e) => {
 					e.preventDefault();
 					const { elements } = e.target;
@@ -50,7 +52,7 @@ const UpdateTask = ({
 					id={`${id}_modal_completed`}
 
 				/>
-				<label htmlFor={`${id}_modal_completed`}>
+				<label htmlFor={`${id}_modal_completed`} className={styles.checkbox}>
 					<span className="sr-only">Complete - {name}</span>
 				</label>
 				<label
@@ -60,6 +62,7 @@ const UpdateTask = ({
 					Change Task Name
 				</label>
 				<input
+					className={styles.name}
 					type="text"
 					name={`name`}
 					id={`${id}_name`}
@@ -72,6 +75,7 @@ const UpdateTask = ({
 					Change Section
 				</label>
 				<input
+					className={styles.section}
 					type="text"
 					name={`section`}
 					id={`${id}_section`}
@@ -109,7 +113,7 @@ const UpdateTask = ({
 					name={`due`}
 					defaultValue={due && format(new Date(due), `yyyy-MM-dd`)}
 				/>
-				<button type="submit">
+				<button className={styles.submit} type="submit">
 					Update Task
 				</button>
 			</form>

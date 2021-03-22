@@ -1,0 +1,38 @@
+.item {
+	display: flex;
+	position: relative;
+	align-items: center;
+
+	&:hover {
+		.remove, .edit {
+			opacity: 0.2;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.button {
+	position: absolute;
+	opacity: 0;
+}
+
+.remove {
+	composes: button;
+	right: 0;
+}
+
+.edit {
+	composes: button;
+	right: 50px;
+}
+
+.modal {
+	composes: modal from '../../../src/scss/modal.scss';
+}
+
+.close {
+	composes: close from '../../../src/scss/modal.scss';
+}

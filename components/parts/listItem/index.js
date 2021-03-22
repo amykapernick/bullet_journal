@@ -2,9 +2,12 @@ import { useMutation } from '@apollo/client';
 import { format, parse } from 'date-fns';
 import React, { useState } from 'react';
 
+import Edit from '../../../src/img/edit.svg';
+import Close from '../../../src/img/remove.svg';
 import { FETCH_TASKS } from '../../../utils/api/section';
 import { DELETE_TASK, EDIT_TASK } from '../../../utils/api/task';
 import UpdateTask from '../updateTask';
+import styles from './listItem.module.scss';
 
 const ListItem = ({
 	name, id, completed, due, sectionId, listId
@@ -43,7 +46,7 @@ const ListItem = ({
 	};
 
 	return (
-		<li>
+		<li className={styles.item}>
 			<input
 				type="checkbox"
 				defaultChecked={completed}
@@ -65,24 +68,30 @@ const ListItem = ({
 				</time>
 			}
 			<button
+				className={styles.remove}
 				type="button"
 				onClick={() => removeTask()}
 			>
-				Delete Task
+				<Close />
+				<span className="sr-only">Delete Task</span>
 			</button>
 			<button
+				className={styles.edit}
 				type="button"
 				onClick={() => toggleModal(!editModal)}
 			>
-				Edit Task
+				<Edit />
+				<span className="sr-only">Edit Task</span>
 			</button>
 			{editModal
-				&& <div>
+				&& <div className={styles.modal}>
 					<button
+						className={styles.close}
 						type="button"
 						onClick={() => toggleModal(!editModal)}
 					>
-						Close Edit Modal
+						<Close />
+						<span className="sr-only">Close Edit Modal</span>
 					</button>
 					<UpdateTask {...{
 						name,

@@ -41,6 +41,7 @@
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@netlify/plugin-nextjs": "^3.0.3",
+    "@svgr/webpack": "^5.5.0",
     "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-babel": "^5.3.1",

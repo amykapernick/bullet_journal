@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 
 import { ADD_TASK } from '../../../utils/api/task';
+import styles from './addTask.module.scss';
 
 const AddTask = ({
 	listId, sectionId, toggleModalOpen
@@ -63,6 +64,7 @@ const AddTask = ({
 	return (
 		<Fragment>
 			<button
+				className={styles.toggleButton}
 				type="button"
 				onClick={() => toggleInputMethod(!addMultiple)}
 			>
@@ -82,18 +84,23 @@ const AddTask = ({
 
 const SingleAdd = ({ list, createTask }) => (
 	<form
+		className={styles.form}
 		onSubmit={(e) => {
 			e.preventDefault();
-			createTask(e.target.elements[`${list}_newTask`].value);
-			e.target.elements[`${list}_newTask`].value = ``;
+			createTask(e.target.elements.newTask.value);
+			e.target.elements.newTask.value = ``;
 		}}
 	>
-		<legend>Add New Task</legend>
-		<label>New Task Name</label>
+		<label
+			htmlFor={`${list}_newTask`}
+		>
+			New Task Name
+		</label>
 		<input
 			type="text"
 			placeholder="New Task"
-			name={`${list}_newTask`}
+			name={`newTask`}
+			id={`${list}_newTask`}
 		/>
 		<button type="submit">
 			Add Task
@@ -103,23 +110,28 @@ const SingleAdd = ({ list, createTask }) => (
 
 const MultipleAdd = ({ list, createTask }) => (
 	<form
+		className={styles.form}
 		onSubmit={(e) => {
 			e.preventDefault();
-			const newLabel = e.target.elements[`${list}_newTask`].value;
+			const newLabel = e.target.elements.newTask.value;
 			const newTasks = newLabel.split(`\n`);
 
 			newTasks.forEach((task) => {
 				createTask(task);
 			});
 
-			e.target.elements[`${list}_newTask`].value = ``;
+			e.target.elements.newTask.value = ``;
 		}}
 	>
-		<legend>Add New Tasks</legend>
-		<label>New Tasks</label>
+		<label
+			htmlFor={`${list}_newTask_multiple`}
+		>
+			Add new task on each line
+		</label>
 		<textarea
 			defaultValue={`Task 1\nTask 2\nTask 3`}
-			name={`${list}_newTask`}
+			name={`newTask`}
+			id={`${list}_newTask_multiple`}
 		/>
 		<button type="submit">
 			Add Task

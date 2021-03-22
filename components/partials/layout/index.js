@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Header from '../header';
 
 const Layout = ({
-	children, className
+	children, className, sectionId
 }) => {
 	const [authorised, setAuthorised] = useState(false);
 
@@ -32,7 +32,7 @@ const Layout = ({
 
 	return (
 		<Fragment>
-			<Header />
+			<Header {...{ sectionId }} />
 			<main className={`${className}`}>
 				{authorised
 					? <Fragment>{children}</Fragment>

@@ -1,0 +1,200 @@
+.week {
+	display: grid;
+	grid-gap: 10px;
+	padding: 20px 10px;
+}
+
+.title {
+	grid-column: 1 / -1;
+	margin: 0;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+.list {
+	--list_colour: #{var.$purple};
+	display: flex;
+	position: relative;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	align-items: center;
+	align-self: start;
+	justify-content: space-between;
+	padding: 10px;
+	border: 4px solid var(--list_colour);
+
+	&:before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: var(--list_colour);
+	}
+
+	h2 {
+		margin: 0;
+	}
+
+	ul, textarea, p {
+		width: 100%;
+	}
+
+	ul, li {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	ul {
+		position: relative;
+		margin-top: 10px;
+
+		&:empty {
+			display: none;
+		}
+
+		&:before {
+			content: '';
+			position: absolute;
+			z-index: -1;
+			top: -10px;
+			right: -10px;
+			bottom: -10px;
+			left: -10px;
+			opacity: 0.6;
+			background: #ffffff;
+		}
+	}
+}
+
+.days {
+	--list_colour: #{var.$orange};
+	align-self: stretch;
+	border: none;
+
+	&:before {
+		content: normal;
+	}
+
+	ul {
+		&:before {
+			content: normal;
+		}
+	}
+}
+
+.work {
+	--list_colour: #{var.$blue};
+}
+
+.events {
+	--list_colour: #{var.$purple};
+}
+
+.goals {
+	--list_colour: #{var.$green};
+}
+
+.selfcare {
+	--list_colour: #{var.$pink};
+}
+
+.personal {
+	--list_colour: #{var.$darkpurple};
+}
+
+.parent {
+	grid-column: 1 / -1;
+}
+
+.subLists {
+	display: flex;
+	flex-wrap: wrap;
+	align-self: stretch;
+	height: 100%;
+	gap: 10px;
+}
+
+.list_sub {
+	display: flex;
+	flex: 1 1 auto;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	align-items: center;
+	justify-content: space-between;
+	min-width: calc(6ch + 50px);
+	border: 2px solid var(--list_colour);
+
+	ul {
+		width: 100%;
+		margin-top: 0;
+		padding: 10px;
+		border-top: 2px solid var(--list_colour);
+	}
+
+	h3 {
+		max-width: calc(100% - 60px);
+		margin: 0;
+		padding: 0 10px;
+		overflow-x: hidden;
+	}
+}
+
+.notes {
+	--list_colour: #{var.$yellow};
+	grid-column: 1 / -1;
+}
+
+@media(min-width: 40em) {
+	.week {
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	}
+}
+
+@media(min-width: 50em) {
+	.week {
+		padding: 50px 20px;
+	}
+}
+
+@media(min-width: 60em) {
+	.week {
+		grid-auto-flow: dense;
+		max-width: 100vw;
+	}
+
+	.title {
+		grid-column: 1 / span 1;
+		grid-row-start: 1;
+	}
+
+	.list_sub {
+		min-width: calc(10ch + 50px);
+		padding: 0 10px;
+	}
+
+	.days {
+		grid-column: 2 / -1;
+		grid-row: 1 / span 3;
+		max-width: 100%;
+
+		.subLists {
+			flex-wrap: nowrap;
+			max-width: 100%;
+			overflow-x: auto;
+		}
+	}
+}
+
+@media(min-width: 70em) {
+	.week {
+		grid-template-columns: repeat(5, 1fr);
+	}
+
+	.notes {
+		grid-column: span 2;
+	}
+}

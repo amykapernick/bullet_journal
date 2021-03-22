@@ -1,0 +1,9 @@
+.toggleButton {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.form {
+	composes: form from '../../../src/scss/modal.scss';
+}
