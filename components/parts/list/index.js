@@ -7,12 +7,14 @@ import React, {
 } from 'react';
 
 import { FETCH_TASKS } from '../../../utils/api/section';
+import generateListName from '../../../utils/list/generateListName';
 import generateSectionName from '../../../utils/list/generateSectionName';
 import AddTask from '../addTask';
 import ListItem from '../listItem';
 
 const List = ({ listId = ``, sectionId = `` }) => {
 	const section = generateSectionName(sectionId);
+	const list = generateListName(listId);
 	const [modalOpen, toggleModalOpen] = useState(false);
 	const options = {
 		variables: {
@@ -22,12 +24,8 @@ const List = ({ listId = ``, sectionId = `` }) => {
 		context: process.env.NEXT_PUBLIC_AUTH_TOKEN
 	};
 	const {
-		loading, error, data, refetch
+		loading, error, data
 	} = useQuery(FETCH_TASKS, options);
-
-	useEffect(() => {
-		refetch();
-	}, [modalOpen, data]);
 
 	if (loading) return <p>List is loading</p>;
 
@@ -35,7 +33,7 @@ const List = ({ listId = ``, sectionId = `` }) => {
 
 	return (
 		<Fragment>
-			<h2>{section}</h2>
+			<h2>{list}</h2>
 			<button
 				type="button"
 				onClick={() => toggleModalOpen(!modalOpen)}
