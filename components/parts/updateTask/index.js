@@ -9,7 +9,7 @@ import lists from '../../../_data/lists/index';
 import { DELETE_TASK, EDIT_TASK } from '../../../utils/api/task';
 
 const UpdateTask = ({
-	name, id, completed, due, sectionId, listId
+	name, id, completed, due, sectionId, listId, toggleModal
 }) => {
 	const [editTask] = useMutation(EDIT_TASK);
 
@@ -18,6 +18,8 @@ const UpdateTask = ({
 			onSubmit={(e) => {
 				e.preventDefault();
 				const { elements } = e.target;
+
+				console.log(parse(elements.due.value, `yyyy-mm-dd`, new Date()));
 
 				editTask({
 					variables: {
@@ -30,10 +32,16 @@ const UpdateTask = ({
 							section: elements.section.value,
 							name: elements.name.value,
 							completed: elements.completed.checked,
-							due: elements.due.valueAsDate
+							due: parse(
+								elements.due.value,
+								`yyyy-mm-dd`,
+								new Date()
+							)
 						}
 					}
 				});
+
+				toggleModal(false);
 			}}
 		>
 			<input
@@ -100,7 +108,7 @@ const UpdateTask = ({
 				type="date"
 				id={`${id}_due`}
 				name={`due`}
-				defaultValue={due && format(due, `yyy-mm-dd`)}
+				defaultValue={due && format(new Date(due), `yyyy-mm-dd`)}
 			/>
 			<button type="submit">
 				Update Task

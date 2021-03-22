@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import { format, parse } from 'date-fns';
 import React, { useState } from 'react';
 
 import { FETCH_TASKS } from '../../../utils/api/section';
@@ -58,7 +59,13 @@ const ListItem = ({
 				<span className="sr-only">Complete - {name}</span>
 			</label>
 			<span>{name}</span>
-			<time>{due}</time>
+			{due
+				&& <time
+					dateTime={format(new Date(due), `yyyy-mm-dd`)}
+				>
+					{format(new Date(due), `dd-MMM`)}
+				</time>
+			}
 			<button
 				type="button"
 				onClick={() => removeTask()}
@@ -86,6 +93,7 @@ const ListItem = ({
 						due,
 						sectionId,
 						listId,
+						toggleModal
 					}} />
 				</div>
 			}
