@@ -61,7 +61,7 @@ const ListItem = ({
 			<span>{name}</span>
 			{due
 				&& <time
-					dateTime={format(new Date(due), `yyyy-mm-dd`)}
+					dateTime={format(new Date(due), `yyyy-MM-dd`)}
 				>
 					{format(new Date(due), `dd-MMM`)}
 				</time>

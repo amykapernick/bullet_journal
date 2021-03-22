@@ -19,8 +19,6 @@ const UpdateTask = ({
 				e.preventDefault();
 				const { elements } = e.target;
 
-				console.log(parse(elements.due.value, `yyyy-mm-dd`, new Date()));
-
 				editTask({
 					variables: {
 						section: {
@@ -34,7 +32,7 @@ const UpdateTask = ({
 							completed: elements.completed.checked,
 							due: parse(
 								elements.due.value,
-								`yyyy-mm-dd`,
+								`yyyy-MM-dd`,
 								new Date()
 							)
 						}
@@ -108,7 +106,7 @@ const UpdateTask = ({
 				type="date"
 				id={`${id}_due`}
 				name={`due`}
-				defaultValue={due && format(new Date(due), `yyyy-mm-dd`)}
+				defaultValue={due && format(new Date(due), `yyyy-MM-dd`)}
 			/>
 			<button type="submit">
 				Update Task
