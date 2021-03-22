@@ -4,13 +4,8 @@ import {
 
 const ADD_TASK = gql`
 	mutation AddTask(
-		$task: TaskInput!, 
-		$section: SectionInput!
+		$task: TaskInput!
 	) {
-		addSection(section: $section) {
-			sectionId
-			id
-		}
 		addTask(task: $task) {
 			name
 			id
@@ -18,6 +13,6 @@ const ADD_TASK = gql`
 			due
 		}
 	}
-`
+`;
 
-export default ADD_TASK
+export default ADD_TASK;
