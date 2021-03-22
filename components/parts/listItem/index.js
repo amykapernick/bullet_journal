@@ -1,40 +1,102 @@
 import { useMutation } from '@apollo/client';
-import React from 'react';
+import { format, parse } from 'date-fns';
+import React, { useState } from 'react';
 
-import { DELETE_TASK } from '../../../utils/api/task';
+import { FETCH_TASKS } from '../../../utils/api/section';
+import { DELETE_TASK, EDIT_TASK } from '../../../utils/api/task';
+import UpdateTask from '../updateTask';
 
 const ListItem = ({
-	name, id, completed, due, refetch
+	name, id, completed, due, sectionId, listId
 }) => {
-	const [deleteTask] = useMutation(DELETE_TASK, {
-		variables: {
-			task: id
+	const refetch = {
+		update: {
+			refetchQueries: [
+				{
+					query: FETCH_TASKS,
+					variables: {
+						section: sectionId,
+						list: listId
+					}
+				}
+			]
 		}
-	});
+	};
+	const details = {
+		variables: {
+			task: {
+				id,
+				completed: !completed
+			},
+			section: {
+				sectionId,
+			},
+		}
+	};
+	const [completeTask] = useMutation(EDIT_TASK);
+	const [deleteTask] = useMutation(DELETE_TASK, { ...refetch });
+	const [editModal, toggleModal] = useState(false);
 	const removeTask = () => {
-		deleteTask();
-		refetch();
+		deleteTask({
+			variables: {
+				task: id
+			}
+		});
 	};
 
 	return (
 		<li>
-			{/* <input
+			<input
 				type="checkbox"
 				defaultChecked={completed}
 				name={`${id}_status`}
 				id={`${id}_completed`}
+				onChange={() => {
+					completeTask({ ...details });
+				}}
 			/>
 			<label htmlFor={`${id}_completed`}>
 				<span className="sr-only">Complete - {name}</span>
-			</label> */}
+			</label>
 			<span>{name}</span>
-			<time>{due}</time>
-			{/* <button
+			{due
+				&& <time
+					dateTime={format(new Date(due), `yyyy-mm-dd`)}
+				>
+					{format(new Date(due), `dd-MMM`)}
+				</time>
+			}
+			<button
 				type="button"
 				onClick={() => removeTask()}
 			>
 				Delete Task
-			</button> */}
+			</button>
+			<button
+				type="button"
+				onClick={() => toggleModal(!editModal)}
+			>
+				Edit Task
+			</button>
+			{editModal
+				&& <div>
+					<button
+						type="button"
+						onClick={() => toggleModal(!editModal)}
+					>
+						Close Edit Modal
+					</button>
+					<UpdateTask {...{
+						name,
+						id,
+						completed,
+						due,
+						sectionId,
+						listId,
+						toggleModal
+					}} />
+				</div>
+			}
 		</li>
 	);
 };

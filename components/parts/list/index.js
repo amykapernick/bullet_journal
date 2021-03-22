@@ -42,14 +42,22 @@ const List = ({ listId = ``, sectionId = `` }) => {
 			>
 				Add Task
 			</button>
-			<div open={modalOpen}>
-				<AddTask {...{
-					listId, sectionId, toggleModalOpen
-				}} />
-			</div>
+			{modalOpen
+				&& <div>
+					<button
+						type="button"
+						onClick={() => toggleModalOpen(false)}
+					>
+						Close Modal
+					</button>
+					<AddTask {...{
+						listId, sectionId, toggleModalOpen
+					}} />
+				</div>
+			}
 			<ul>
 				{data.tasks.map((item) => (
-					<ListItem key={JSON.stringify(item)} {...{ ...item, refetch }} />
+					<ListItem key={JSON.stringify(item)} {...{ ...item, listId, sectionId }} />
 				))}
 			</ul>
 		</Fragment>

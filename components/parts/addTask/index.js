@@ -1,4 +1,5 @@
 import {
+	gql,
 	useMutation
 } from '@apollo/client';
 import React, {
@@ -25,8 +26,12 @@ const AddTask = ({
 									completed
 									due
 									type
+									list
+									section {
+										sectionId
+									}
 								}
-								`
+							`
 						});
 						return [...existingTasks, newTaskRef];
 					}
@@ -59,12 +64,6 @@ const AddTask = ({
 		<Fragment>
 			<button
 				type="button"
-				onClick={() => toggleModalOpen(false)}
-			>
-				Close Modal
-			</button>
-			<button
-				type="button"
 				onClick={() => toggleInputMethod(!addMultiple)}
 			>
 				{addMultiple
@@ -86,6 +85,7 @@ const SingleAdd = ({ list, createTask }) => (
 		onSubmit={(e) => {
 			e.preventDefault();
 			createTask(e.target.elements[`${list}_newTask`].value);
+			e.target.elements[`${list}_newTask`].value = ``;
 		}}
 	>
 		<legend>Add New Task</legend>
@@ -111,6 +111,8 @@ const MultipleAdd = ({ list, createTask }) => (
 			newTasks.forEach((task) => {
 				createTask(task);
 			});
+
+			e.target.elements[`${list}_newTask`].value = ``;
 		}}
 	>
 		<legend>Add New Tasks</legend>

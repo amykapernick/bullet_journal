@@ -2,8 +2,8 @@ import {
 	gql
 } from '@apollo/client';
 
-const ADD_TASK = gql`
-	mutation AddTask(
+const EDIT_TASK = gql`
+	mutation EditTask(
 		$task: TaskInput!, 
 		$section: SectionInput!
 	) {
@@ -11,13 +11,17 @@ const ADD_TASK = gql`
 			sectionId
 			id
 		}
-		addTask(task: $task) {
+		editTask(task: $task) {
 			name
 			id
 			completed
 			due
+			list
+			section {
+				sectionId
+			}
 		}
 	}
 `;
 
-export default ADD_TASK;
+export default EDIT_TASK;
