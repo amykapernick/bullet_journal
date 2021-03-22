@@ -6,23 +6,22 @@ import {
 import React, { Fragment } from 'react';
 
 const Main = ({ Component }) => {
-	if (
-		typeof window !== `undefined`
-		&& window.location.search.match(/\?/)
-	) {
-		return (
-			<Fragment>
-				<ApolloProvider client={
-					new ApolloClient({
-						uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
-						cache: new InMemoryCache()
-					})
-				}>
-					<Component />
-				</ApolloProvider>
-			</Fragment>
-		);
+	if (typeof window !== `undefined`) {
+
 	}
+
+	return (
+		<Fragment>
+			<ApolloProvider client={
+				new ApolloClient({
+					uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
+					cache: new InMemoryCache()
+				})
+			}>
+				<Component />
+			</ApolloProvider>
+		</Fragment>
+	);
 };
 
 export default Main;
