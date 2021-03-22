@@ -64,12 +64,6 @@ const AddTask = ({
 		<Fragment>
 			<button
 				type="button"
-				onClick={() => toggleModalOpen(false)}
-			>
-				Close Modal
-			</button>
-			<button
-				type="button"
 				onClick={() => toggleInputMethod(!addMultiple)}
 			>
 				{addMultiple
