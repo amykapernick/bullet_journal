@@ -7,12 +7,12 @@ import React, { Fragment } from 'react';
 
 import styles from './header.module.scss';
 
-const Header = ({ sectionId }) => {
+const Header = ({ sectionId = `` }) => {
 	let next = false;
 	let prev = false;
 	let period = `week`;
 
-	if (sectionId.match(/\d{2}-\w{3}-\d{4}/)) {
+	if (sectionId?.match(/\d{2}-\w{3}-\d{4}/)) {
 		const week = parse(
 			sectionId,
 			`dd-MMM-yyyy`,
@@ -27,7 +27,7 @@ const Header = ({ sectionId }) => {
 			subDays(week, 7),
 			`dd-MMM-yyyy`
 		).toLowerCase();
-	} else if (sectionId.match(/\w{3}-\d{4}/)) {
+	} else if (sectionId?.match(/\w{3}-\d{4}/)) {
 		period = `month`;
 
 		const month = parse(

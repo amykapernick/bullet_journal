@@ -5,21 +5,17 @@ import {
 } from '@apollo/client';
 import React, { Fragment } from 'react';
 
-const Main = ({ Component }) => {
-	console.log();
-
-	return (
-		<Fragment>
-			<ApolloProvider client={
-				new ApolloClient({
-					uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
-					cache: new InMemoryCache()
-				})
-			}>
-				<Component />
-			</ApolloProvider>
-		</Fragment>
-	);
-};
+const Main = ({ Component }) => (
+	<Fragment>
+		<ApolloProvider client={
+			new ApolloClient({
+				uri: process.env.NEXT_PUBLIC_GRAPHQL_URL,
+				cache: new InMemoryCache()
+			})
+		}>
+			<Component />
+		</ApolloProvider>
+	</Fragment>
+);
 
 export default Main;
