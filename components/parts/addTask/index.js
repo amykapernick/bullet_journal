@@ -5,7 +5,6 @@ import React, {
 	Fragment, 	useState
 } from 'react';
 
-import { FETCH_TASKS } from '../../../utils/api/section';
 import { ADD_TASK } from '../../../utils/api/task';
 
 const AddTask = ({
