@@ -36,6 +36,23 @@
     "stylelint-scss": "^3.19.0"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^3.0.3"
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "babel-preset-gatsby": "^0.12.1",
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-webpack-plugin": "^2.5.1",
+    "@netlify/plugin-nextjs": "^3.0.3",
+    "stylelint": "^13.10.0",
+    "stylelint-config-css-modules": "^2.2.0",
+    "stylelint-config-property-sort-order-smacss": "^7.0.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.19.0"
   }
 }

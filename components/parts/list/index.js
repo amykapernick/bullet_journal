@@ -1,41 +1,61 @@
-import React, {
-	useState, useEffect, Fragment
-} from 'react';
 import {
-	useQuery, useMutation
+	useMutation,
+	useQuery
 } from '@apollo/client';
+import React, {
+	Fragment,
+	useEffect, 	useState
+} from 'react';
 
-import ListItem from '../listItem'
+import { FETCH_TASKS } from '../../../utils/api/section';
+import { ADD_TASK } from '../../../utils/api/task';
+import generateSectionName from '../../../utils/list/generateSectionName';
+import AddTask from '../addTask';
+import ListItem from '../listItem';
 
-import generateSectionName from '../../../utils/list/generateSectionName'
-import {ADD_SECTION, FETCH_TASKS} from '../../../utils/api/section'
-
-
-const List = ({ listId = '', sectionId = '' }) => {
-	const section = generateSectionName(sectionId)
+const List = ({ listId = ``, sectionId = `` }) => {
+	const section = generateSectionName(sectionId);
+	const [modalOpen, toggleModalOpen] = useState(false);
 	const options = {
 		variables: {
 			section: sectionId,
 			list: listId
 		},
 		context: process.env.NEXT_PUBLIC_AUTH_TOKEN
-	}
-	const {loading, error, data} = useQuery(FETCH_TASKS, options)
+	};
+	const {
+		loading, error, data, refetch
+	} = useQuery(FETCH_TASKS, options);
 
-	if(loading) return <p>List is loading</p>
+	useEffect(() => {
+		refetch();
+	}, [modalOpen, data]);
 
-	if(error) return <p>Whoops, looks like something went wrong</p>
+	if (loading) return <p>List is loading</p>;
+
+	if (error) return <p>Whoops, looks like something went wrong</p>;
 
 	return (
 		<Fragment>
 			<h2>{section}</h2>
+			<button
+				type="button"
+				onClick={() => toggleModalOpen(!modalOpen)}
+			>
+				Add Task
+			</button>
+			<div open={modalOpen}>
+				<AddTask {...{
+					listId, sectionId, toggleModalOpen
+				}} />
+			</div>
 			<ul>
-				{data.tasks.map(item => (
-					<ListItem {...item} />
+				{data.tasks.map((item) => (
+					<ListItem key={JSON.stringify(item)} {...{ ...item, refetch }} />
 				))}
 			</ul>
 		</Fragment>
-	)
-}
+	);
+};
 
-export default List
+export default List;
