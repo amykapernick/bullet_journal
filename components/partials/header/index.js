@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { parse, add, sub } from 'date-fns';
+import { useRouter } from 'next/router';
+import React, { Fragment } from 'react';
 
 const Header = () => (
 	<header>

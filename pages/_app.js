@@ -6,9 +6,7 @@ import {
 import React, { Fragment } from 'react';
 
 const Main = ({ Component }) => {
-	if (typeof window !== `undefined`) {
-
-	}
+	console.log();
 
 	return (
 		<Fragment>
