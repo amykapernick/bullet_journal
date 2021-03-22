@@ -18,7 +18,7 @@ const ListItem = ({
 
 	return (
 		<li>
-			<input
+			{/* <input
 				type="checkbox"
 				defaultChecked={completed}
 				name={`${id}_status`}
@@ -26,15 +26,15 @@ const ListItem = ({
 			/>
 			<label htmlFor={`${id}_completed`}>
 				<span className="sr-only">Complete - {name}</span>
-			</label>
+			</label> */}
 			<span>{name}</span>
 			<time>{due}</time>
-			<button
+			{/* <button
 				type="button"
 				onClick={() => removeTask()}
 			>
 				Delete Task
-			</button>
+			</button> */}
 		</li>
 	);
 };
