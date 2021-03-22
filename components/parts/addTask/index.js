@@ -26,8 +26,12 @@ const AddTask = ({
 									completed
 									due
 									type
+									list
+									section {
+										sectionId
+									}
 								}
-								`
+							`
 						});
 						return [...existingTasks, newTaskRef];
 					}
