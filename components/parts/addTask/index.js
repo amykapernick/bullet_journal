@@ -46,6 +46,9 @@ const AddTask = ({
 					list: listId,
 					section: sectionId,
 					name
+				},
+				section: {
+					sectionId,
 				}
 			}
 		});
