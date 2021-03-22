@@ -49,7 +49,7 @@ const List = ({ listId = ``, sectionId = `` }) => {
 			</div>
 			<ul>
 				{data.tasks.map((item) => (
-					<ListItem key={JSON.stringify(item)} {...{ ...item, refetch }} />
+					<ListItem key={JSON.stringify(item)} {...{ ...item, listId, sectionId }} />
 				))}
 			</ul>
 		</Fragment>

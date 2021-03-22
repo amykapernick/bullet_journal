@@ -1,19 +1,29 @@
-import { useMutation } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import React from 'react';
 
+import { FETCH_TASKS } from '../../../utils/api/section';
 import { DELETE_TASK } from '../../../utils/api/task';
 
 const ListItem = ({
-	name, id, completed, due, refetch
+	name, id, completed, due, sectionId, listId
 }) => {
 	const [deleteTask] = useMutation(DELETE_TASK, {
-		variables: {
-			task: id
-		}
+		refetchQueries: [
+			{
+				query: FETCH_TASKS,
+				variables: {
+					section: sectionId,
+					list: listId
+				}
+			}
+		]
 	});
 	const removeTask = () => {
-		deleteTask();
-		refetch();
+		deleteTask({
+			variables: {
+				task: id
+			}
+		});
 	};
 
 	return (
@@ -29,12 +39,12 @@ const ListItem = ({
 			</label> */}
 			<span>{name}</span>
 			<time>{due}</time>
-			{/* <button
+			<button
 				type="button"
 				onClick={() => removeTask()}
 			>
 				Delete Task
-			</button> */}
+			</button>
 		</li>
 	);
 };

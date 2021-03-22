@@ -91,6 +91,7 @@ const SingleAdd = ({ list, createTask }) => (
 		onSubmit={(e) => {
 			e.preventDefault();
 			createTask(e.target.elements[`${list}_newTask`].value);
+			e.target.elements[`${list}_newTask`].value = ``;
 		}}
 	>
 		<legend>Add New Task</legend>
@@ -116,6 +117,8 @@ const MultipleAdd = ({ list, createTask }) => (
 			newTasks.forEach((task) => {
 				createTask(task);
 			});
+
+			e.target.elements[`${list}_newTask`].value = ``;
 		}}
 	>
 		<legend>Add New Tasks</legend>
