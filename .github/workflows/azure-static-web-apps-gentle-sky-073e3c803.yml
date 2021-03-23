@@ -31,6 +31,10 @@ jobs:
           api_location: "api" # Api source code path - optional
           output_location: ".next" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+        env:
+          NEXT_PUBLIC_GRAPHQL_URL: ${{ secrets.NEXT_PUBLIC_GRAPHQL_URL }}
+          NEXT_PUBLIC_AUTH_TOKEN: ${{ secrets.NEXT_PUBLIC_AUTH_TOKEN }}
+          NEXT_PUBLIC_LOGIN_AUTH: ${{ secrets.NEXT_PUBLIC_LOGIN_AUTH }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
