@@ -4,7 +4,8 @@
   "main": "static/index.html",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run next:build && npm run export",
+    "next:build": "next build",
     "start": "npm run dev",
     "export": "next export",
     "clean": "rm -rf .next"

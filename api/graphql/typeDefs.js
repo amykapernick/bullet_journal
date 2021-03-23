@@ -1,4 +1,4 @@
-const {gql} = require('apollo-server-azure-functions')
+const { gql } = require(`apollo-server-azure-functions`);
 
 const typeDefs = gql`
 	scalar Date
@@ -91,6 +91,6 @@ const typeDefs = gql`
 		editEvent(event: EventInput): Event
 		editNote(note: NoteInput): Note
 	}
-`
+`;
 
-module.exports = typeDefs
+module.exports = typeDefs;
