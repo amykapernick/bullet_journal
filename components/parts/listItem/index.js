@@ -46,7 +46,7 @@ const ListItem = ({
 	};
 
 	return (
-		<li className={styles.item}>
+		<li className={`${styles.item} ${due && styles.date} ${completed && styles.completed}`}>
 			<input
 				type="checkbox"
 				defaultChecked={completed}
@@ -62,6 +62,7 @@ const ListItem = ({
 			<span>{name}</span>
 			{due
 				&& <time
+					className={styles.due}
 					dateTime={format(new Date(due), `yyyy-MM-dd`)}
 				>
 					{format(new Date(due), `dd-MMM`)}

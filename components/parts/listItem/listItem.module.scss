@@ -2,6 +2,9 @@
 	display: flex;
 	position: relative;
 	align-items: center;
+	margin-bottom: 5px;
+	font-size: 0.8em;
+	font-weight: 400;
 
 	&:hover {
 		.remove, .edit {
@@ -12,6 +15,24 @@
 			}
 		}
 	}
+
+	&.date {
+		padding-bottom: 15px;
+	}
+
+	&.completed {
+		order: 2;
+		opacity: 0.5;
+	}
+}
+
+.due {
+	position: absolute;
+	right: 10px;
+	bottom: 0;
+	opacity: 0.8;
+	font-size: 0.7em;
+	font-weight: 400;
 }
 
 .button {
