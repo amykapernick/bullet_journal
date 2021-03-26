@@ -1,8 +1,23 @@
 {
+	"routes": [
+		{
+			"route": "/week",
+			"serve": "/week/[[...sectionId]].html"
+		},
+		{
+			"route": "/week/*",
+			"serve": "/week/[[...sectionId]].html"
+		},
+		{
+			"route": "*",
+			"serve": "/index.html"
+		}
+	],
 	"navigationFallback": {
 		"rewrite": "index.html",
 		"exclude": [
-			"/_next/static/*"
+			"/_next/static/*",
+			"/week"
 		]
 	}
 }
