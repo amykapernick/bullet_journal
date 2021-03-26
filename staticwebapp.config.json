@@ -1,0 +1,16 @@
+{
+	"routes": [
+		{
+			"route": "/week",
+			"serve": "/week/[[...sectionId]].html"
+		},
+		{
+			"route": "/week/*",
+			"serve": "/week/[[...sectionId]].html"
+		},
+		{
+			"route": "*",
+			"serve": "/index.html"
+		}
+	]
+}
