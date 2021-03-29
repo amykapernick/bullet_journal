@@ -1,0 +1,165 @@
+.overview {
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: repeat(2, 1fr);
+	padding: 20px 10px;
+}
+
+.title {
+	margin: 0;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+.list {
+	--list_colour: #{var.$purple};
+	display: flex;
+	position: relative;
+	grid-column: 1 / -1;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	align-items: center;
+	align-self: start;
+	justify-content: space-between;
+	padding: 0 10px 10px;
+	border: 4px solid var(--list_colour);
+
+	&:before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background: var(--list_colour);
+	}
+
+	h2 {
+		margin: 0;
+	}
+
+	ul, textarea, p {
+		width: 100%;
+	}
+
+	li {
+		padding: 0;
+		list-style: none;
+	}
+
+	ul {
+		position: static;
+		justify-content: flex-start;
+		margin: 0;
+		margin-top: 10px;
+		padding: 0;
+		list-style: none;
+
+		&:before {
+			content: '';
+			position: absolute;
+			z-index: -1;
+			top: 60px;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			opacity: 0.6;
+			background: #ffffff;
+		}
+	}
+
+	.subLists {
+		margin-top: 0;
+	}
+}
+
+.work {
+	--list_colour: #{var.$blue};
+}
+
+.events {
+	--list_colour: #{var.$purple};
+}
+
+.goals {
+	--list_colour: #{var.$green};
+}
+
+.today {
+	--list_colour: #{var.$orange};
+}
+
+.notes {
+	--list_colour: #{var.$yellow};
+	grid-column: 1 / -1;
+}
+
+@media(min-width: 40em) {
+	.overview {
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	}
+
+	.list {
+		grid-column: span 1;
+	}
+
+	.month {
+		grid-column: 2 / -1;
+		justify-self: start;
+	}
+
+	.notes {
+		grid-column: 1 / -1;
+	}
+}
+
+@media(min-width: 50em) {
+	.overview {
+		padding: 20px 20px 50px;
+	}
+}
+
+@media(min-width: 60em) {
+	.overview {
+		grid-template-areas: 'week today month events' 'goals_w today goals_m events' 'notes_w notes_w notes_m notes_m';
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: max-content;
+	}
+
+	.list {
+		align-self: stretch;
+	}
+
+	.week {
+		grid-area: week;
+	}
+
+	.month {
+		grid-area: month;
+	}
+
+	.today {
+		grid-area: today;
+	}
+
+	.events {
+		grid-area: events;
+	}
+
+	.goals_w {
+		grid-area: goals_w;
+	}
+
+	.goals_m {
+		grid-area: goals_m;
+	}
+
+	.notes_w {
+		grid-area: notes_w;
+	}
+
+	.notes_m {
+		grid-area: notes_m;
+	}
+}

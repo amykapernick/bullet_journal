@@ -8,6 +8,7 @@
     "next:build": "next build",
     "start": "npm run dev",
     "export": "next export",
+    "api": "cd api && fnm use && npm start",
     "clean": "rm -rf .next"
   },
   "author": "Amy Kapernick <amy@kapers.dev> (https://amyskapers.dev)",
