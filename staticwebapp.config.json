@@ -2,8 +2,7 @@
 	"navigationFallback": {
 		"rewrite": "index.html",
 		"exclude": [
-			"/_next/static/*",
-			"/week"
+			"/_next/static/*"
 		]
 	}
 }
