@@ -241,7 +241,12 @@
 @media(min-width: 100em) {
 	.days {
 		.subLists {
-			overflow-x: hidden;
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
 		}
+	}
+
+	.list_sub {
+		min-width: unset;
 	}
 }
